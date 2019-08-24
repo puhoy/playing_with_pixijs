@@ -1,0 +1,35 @@
+{
+  "name": "wizzard",
+  "velocity": 2,
+  "tile_dimensions": {
+    "height": 16,
+    "width": 16
+  },
+  "textures": {
+    "idle": [
+      "wizzard_m_idle_anim_f0.png",
+      "wizzard_m_idle_anim_f1.png",
+      "wizzard_m_idle_anim_f2.png",
+      "wizzard_m_idle_anim_f3.png"
+    ],
+    "running": [
+      "wizzard_m_run_anim_f0.png",
+      "wizzard_m_run_anim_f1.png",
+      "wizzard_m_run_anim_f2.png",
+      "wizzard_m_run_anim_f3.png"
+    ],
+    "hit": "wizzard_m_hit_anim_f0.png"
+  },
+  "hitbox": {
+    "idle": {
+      "can_pass": false
+    },
+    "running": {
+      "can_pass": false
+    },
+    "hit": {
+      "can_pass": true
+    }
+
+  }
+}
