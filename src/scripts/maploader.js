@@ -1,6 +1,4 @@
 import * as PIXI from "pixi.js";
-import hitTestRectangle from "./hitTestRectangle";
-
 
 export default class MapLoader {
     constructor(mapJson, textures) {

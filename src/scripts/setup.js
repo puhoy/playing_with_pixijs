@@ -87,50 +87,20 @@ let left = keyboard("ArrowLeft"),
     right = keyboard("ArrowRight"),
     down = keyboard("ArrowDown");
 
-//Left arrow key `press` method
-left.press = () => {
-    //Change the cat's velocity when the key is pressed
-    player.vx = -player.velocity;
-};
-
-//Left arrow key `release` method
-left.release = () => {
-    //If the left arrow has been released, and the right arrow isn't down,
-    //and the player isn't moving vertically:
-    //Stop the player
-    if (!right.isDown) {
-        player.vx = 0;
+let handleVelocity = () => {
+    player.vx = 0;
+    player.vy = 0;
+    if (left.isDown && !right.isDown) {
+        player.vx = -player.velocity;
     }
-};
-
-//Up
-up.press = () => {
-    player.vy = -player.velocity;
-};
-up.release = () => {
-    if (!down.isDown) {
-        player.vy = 0;
+    if (!left.isDown && right.isDown) {
+        player.vx = player.velocity;
     }
-};
-
-//Right
-right.press = () => {
-    player.vx = player.velocity;
-
-};
-right.release = () => {
-    if (!left.isDown) {
-        player.vx = 0;
+    if (up.isDown && !down.isDown) {
+        player.vy = -player.velocity;
     }
-};
-
-//Down
-down.press = () => {
-    player.vy = player.velocity;
-};
-down.release = () => {
-    if (!up.isDown) {
-        player.vy = 0;
+    if (!up.isDown && down.isDown) {
+        player.vy = player.velocity;
     }
 };
 
@@ -140,12 +110,9 @@ down.release = () => {
  * @param delta
  */
 let play = (delta) => {
-    if(currentMap.getCollisions(player.sprite.x, player.sprite.y)) {
-        console.log('collision!!')
-    }
-
+    handleVelocity()
     for (let aliveObject of aliveObjects) {
-        aliveObject.move();
+        aliveObject.move(currentMap);
     }
 };
 

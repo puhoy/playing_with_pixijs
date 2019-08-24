@@ -5,20 +5,31 @@
     "height": 16,
     "width": 16
   },
-  "textures": {
-    "idle": [
-      "wizzard_m_idle_anim_f0.png",
-      "wizzard_m_idle_anim_f1.png",
-      "wizzard_m_idle_anim_f2.png",
-      "wizzard_m_idle_anim_f3.png"
-    ],
-    "running": [
-      "wizzard_m_run_anim_f0.png",
-      "wizzard_m_run_anim_f1.png",
-      "wizzard_m_run_anim_f2.png",
-      "wizzard_m_run_anim_f3.png"
-    ],
-    "hit": "wizzard_m_hit_anim_f0.png"
+  "states": {
+    "idle": {
+      "textures": [
+        "wizzard_m_idle_anim_f0.png",
+        "wizzard_m_idle_anim_f1.png",
+        "wizzard_m_idle_anim_f2.png",
+        "wizzard_m_idle_anim_f3.png"
+      ],
+      "speed": 0.1
+    },
+    "running": {
+      "textures": [
+        "wizzard_m_run_anim_f0.png",
+        "wizzard_m_run_anim_f1.png",
+        "wizzard_m_run_anim_f2.png",
+        "wizzard_m_run_anim_f3.png"
+      ],
+      "speed": 0.15
+    },
+    "hit": {
+      "textures": [
+        "wizzard_m_hit_anim_f0.png"
+      ],
+      "speed": 0
+    }
   },
   "hitbox": {
     "idle": {
@@ -30,6 +41,5 @@
     "hit": {
       "can_pass": true
     }
-
   }
 }
