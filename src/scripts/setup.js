@@ -11,16 +11,22 @@ let Sprite = PIXI.Sprite;
 let aliveObjects = [];
 let player;
 let currentMap;
+let width
+let height
+let container
+
 
 function setup(app) {
-    console.log(app);
     //There are 3 ways to make sprites from textures atlas frames
     textures = app.loader.resources["assets/sprites/dungeon.json"].textures;
     let map = new MapLoader(app.loader.resources["assets/maps/room.json"].data, textures);
+    width = app.renderer.width;
+    height = app.renderer.height;
+    container = new PIXI.Container();
 
     // draw the map
     for (let tile of map.tiles) {
-        app.stage.addChild(tile);
+        container.addChild(tile);
     }
     currentMap = map;
 
@@ -28,56 +34,14 @@ function setup(app) {
     aliveObjects.push(wizzard);
     player = wizzard;
 
-    app.stage.addChild(wizzard.sprite);
+    container.addChild(wizzard.sprite);
+
+
+    app.stage.addChild(container)
 
     //Set the game state
     state = play;
-
     app.ticker.add(delta => gameLoop(delta));
-
-
-    //Make the treasure box using the alias
-    treasure = new Sprite(textures["crate.png"]);
-    app.stage.addChild(treasure);
-
-    //Position the treasure next to the right edge of the canvas
-    treasure.x = app.renderer.width - treasure.width - 48;
-    treasure.y = app.renderer.height / 2 - treasure.height / 2;
-    app.stage.addChild(treasure);
-
-    //Make the exit door
-    door = new Sprite(textures["doors_all.png"]);
-    door.position.set(32, 0);
-    app.stage.addChild(door);
-
-    //Make the blobs
-    let numberOfBlobs = 6,
-        spacing = 48,
-        xOffset = 150;
-
-    //Make as many blobs as there are `numberOfBlobs`
-    for (let i = 0; i < numberOfBlobs; i++) {
-
-        //Make a blob
-        let blob = new Sprite(textures["lizard_m_idle_anim_f3.png"]);
-
-        //Space each blob horizontally according to the `spacing` value.
-        //`xOffset` determines the point from the left of the screen
-        //at which the first blob should be added.
-        let x = spacing * i + xOffset;
-
-        //Give the blob a random y position
-        //(`randomInt` is a custom function - see below)
-
-        let y = randomInt(0, app.renderer.height - blob.height);
-
-        //Set the blob's position
-        blob.x = x;
-        blob.y = y;
-
-        //Add the blob sprite to the stage
-        app.stage.addChild(blob);
-    }
 }
 
 
@@ -114,6 +78,14 @@ let play = (delta) => {
     for (let aliveObject of aliveObjects) {
         aliveObject.move(currentMap);
     }
+    let xMiddle = width / 2;
+    let yMiddle = height / 2;
+    
+    let xPlayerMiddle = player.sprite.width / 2;
+    let yPlayerMiddle = player.sprite.height / 2;
+
+    container.x = -player.sprite.x -xPlayerMiddle + xMiddle;
+    container.y = -player.sprite.y -yPlayerMiddle + yMiddle;
 };
 
 let gameLoop = (delta) => {

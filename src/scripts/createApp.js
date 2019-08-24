@@ -14,7 +14,7 @@ async function createApp(resources) {
     let app = new Application({
         width: 512,         // default: 800
         height: 512,        // default: 600
-        antialias: true,    // default: false
+        antialias: false,    // default: false
         transparent: false, // default: false
         resolution: 1       // default: 1
     });
