@@ -35,7 +35,7 @@ export default class MapLoader {
             let tileIndexX = Math.floor(x / this.tileWidth);
             let tileIndexY = Math.floor(y / this.tileHeight);
 
-            let tileIndex = tileIndexY*this.tileCountX + tileIndexX;
+            let tileIndex = tileIndexY * this.tileCountX + tileIndexX;
             tiles.push(layer[tileIndex]);
             //console.log(tileIndexX, tileIndexY, '->', tileIndex)
         }
@@ -92,13 +92,27 @@ export default class MapLoader {
         return tilesToDraw;
     }
 
-    checkCollisions(sprite) {
-        for (let tile of this.collidables) {
-            if (hitTestRectangle(sprite, tile)) {
-                return true;
-            }
-        }
-        return false;
+    /**
+     * return random coords for the player to spawn
+     */
+    spawnPlayer() {
+        return this._getLocationInArea('player_spawn')
+    }
+
+    spawnItem() {
+        return this._getLocationInArea('item_spawn')
+    }
+
+    _getLocationInArea(area) {
+        let xStart = this.mapJson['areas'][area]['x_start'] * this.tileWidth;
+        let yStart = this.mapJson['areas'][area]['y_start'] * this.tileHeight;
+        let xEnd = this.mapJson['areas'][area]['x_end'] * this.tileWidth;
+        let yEnd = this.mapJson['areas'][area]['y_end'] * this.tileHeight;
+        
+        let randX = Math.random() * (xEnd - xStart) + xStart;
+        let randY = Math.random() * (yEnd - yStart) + yStart;
+
+        return [randX, randY]
     }
 
     getTilePath(name) {

@@ -96,6 +96,20 @@
       ["","","","","","","","","","","","","","",""]
     ]
   ],
+  "areas": {
+    "player_spawn": {
+      "x_start": 3,
+      "y_start": 3,
+      "x_end": 13,
+      "y_end": 13
+    },
+    "item_spawn": {
+      "x_start": 3,
+      "y_start": 3,
+      "x_end": 13,
+      "y_end": 40
+    }
+  },
   "tile_dimensions": {
     "height": 16,
     "width": 16

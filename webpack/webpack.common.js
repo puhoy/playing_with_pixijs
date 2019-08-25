@@ -7,6 +7,7 @@ module.exports = {
     entry: {
         app: Path.resolve(__dirname, '../src/scripts/index.js')
     },
+    devtool: 'inline-source-map',
     output: {
         path: Path.join(__dirname, '../build'),
         filename: 'js/[name].js'
@@ -29,7 +30,8 @@ module.exports = {
     resolve: {
         alias: {
             '~': Path.resolve(__dirname, '../src')
-        }
+        },
+        extensions: ['.tsx', '.ts', '.js']
     },
     module: {
         rules: [
@@ -49,10 +51,13 @@ module.exports = {
             },
             {
                 test: /\.(json)(\?.*)?$/,
-
-                    loader: 'json-loader'
-
+                loader: 'json-loader'
             },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
+            }
         ]
     }
 };

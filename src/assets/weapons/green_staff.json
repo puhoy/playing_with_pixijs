@@ -1,0 +1,21 @@
+{
+  "name": "green_staff",
+  "tile_dimensions": {
+    "height": 30,
+    "width": 8
+  },
+  "anchor": [4, 5],
+  "states": {
+    "idle": {
+      "textures": [
+        "weapon_green_magic_staff.png"
+      ],
+      "speed": 0
+    }
+  },
+  "hitbox": {
+    "idle": {
+      "can_pass": true
+    }
+  }
+}

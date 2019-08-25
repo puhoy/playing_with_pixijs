@@ -2,26 +2,29 @@
 //than one function
 import * as PIXI from "pixi.js";
 import MapLoader from './maploader';
-import Char from "./char";
+import Char from "./spriteWrappers/char";
 import keyboard from "./keyboard";
+import Item from "./spriteWrappers/item";
 
-let dungeon, explorer, treasure, door, textures, state;
-let Sprite = PIXI.Sprite;
+let textures, state;
 
 let aliveObjects = [];
+let itemsOnMap = [];
+
 let player;
 let currentMap;
-let width
-let height
-let container
-
+let width;
+let height;
+let container;
+let App;
 
 function setup(app) {
     //There are 3 ways to make sprites from textures atlas frames
-    textures = app.loader.resources["assets/sprites/dungeon.json"].textures;
-    let map = new MapLoader(app.loader.resources["assets/maps/room.json"].data, textures);
-    width = app.renderer.width;
-    height = app.renderer.height;
+    App = app
+    textures = App.loader.resources["assets/sprites/dungeon.json"].textures;
+    let map = new MapLoader(App.loader.resources["assets/maps/room.json"].data, textures);
+    width = App.renderer.width;
+    height = App.renderer.height;
     container = new PIXI.Container();
 
     // draw the map
@@ -30,18 +33,21 @@ function setup(app) {
     }
     currentMap = map;
 
-    let wizzard = new Char(app.loader.resources["assets/chars/wizzard.json"].data, textures, [50, 50]);
+    let wizzard = new Char(App.loader.resources["assets/chars/wizzard.json"].data, textures, map.spawnPlayer());
+    container.addChild(wizzard.container);
     aliveObjects.push(wizzard);
+
     player = wizzard;
 
-    container.addChild(wizzard.sprite);
+    let greenStaff = new Item(App.loader.resources["assets/weapons/green_staff.json"].data, textures, map.spawnItem());
+    container.addChild(greenStaff.container);
+    itemsOnMap.push(greenStaff);
 
-
-    app.stage.addChild(container)
+    App.stage.addChild(container);
 
     //Set the game state
     state = play;
-    app.ticker.add(delta => gameLoop(delta));
+    App.ticker.add(delta => gameLoop(delta));
 }
 
 
@@ -51,7 +57,7 @@ let left = keyboard("ArrowLeft"),
     right = keyboard("ArrowRight"),
     down = keyboard("ArrowDown");
 
-let handleVelocity = () => {
+let handleInput = () => {
     player.vx = 0;
     player.vy = 0;
     if (left.isDown && !right.isDown) {
@@ -74,18 +80,28 @@ let handleVelocity = () => {
  * @param delta
  */
 let play = (delta) => {
-    handleVelocity()
+
+    handleInput();
+
     for (let aliveObject of aliveObjects) {
-        aliveObject.move(currentMap);
+        aliveObject.moveAndAnimate(currentMap);
     }
+
+    for (let item of itemsOnMap) {
+        if(item.collidesWith(player)) {
+            player.equip(item)
+            container.removeChild(item.container);
+        }
+    }
+
     let xMiddle = width / 2;
     let yMiddle = height / 2;
     
-    let xPlayerMiddle = player.sprite.width / 2;
-    let yPlayerMiddle = player.sprite.height / 2;
+    let xPlayerMiddle = player.container.width / 2;
+    let yPlayerMiddle = player.container.height / 2;
 
-    container.x = -player.sprite.x -xPlayerMiddle + xMiddle;
-    container.y = -player.sprite.y -yPlayerMiddle + yMiddle;
+    container.x = -player.container.x -xPlayerMiddle + xMiddle;
+    container.y = -player.container.y -yPlayerMiddle + yMiddle;
 };
 
 let gameLoop = (delta) => {
