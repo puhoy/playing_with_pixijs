@@ -10,9 +10,7 @@ export default class MapLoader {
         this.tileCountX;
         this.tileCountY;
 
-        this.collidables = [];
         this.collisionMap;
-
 
         this.tiles = this.createSprites();
     }
@@ -108,7 +106,7 @@ export default class MapLoader {
         let yStart = this.mapJson['areas'][area]['y_start'] * this.tileHeight;
         let xEnd = this.mapJson['areas'][area]['x_end'] * this.tileWidth;
         let yEnd = this.mapJson['areas'][area]['y_end'] * this.tileHeight;
-        
+
         let randX = Math.random() * (xEnd - xStart) + xStart;
         let randY = Math.random() * (yEnd - yStart) + yStart;
 

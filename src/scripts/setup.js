@@ -27,10 +27,12 @@ function setup(app) {
     height = App.renderer.height;
     container = new PIXI.Container();
 
+    let particleContainer = new PIXI.ParticleContainer();
     // draw the map
     for (let tile of map.tiles) {
-        container.addChild(tile);
+        particleContainer.addChild(tile);
     }
+    container.addChild(particleContainer)
     currentMap = map;
 
     let wizzard = new Char(App.loader.resources["assets/chars/wizzard.json"].data, textures, map.spawnPlayer());

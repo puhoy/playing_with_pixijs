@@ -1,4 +1,4 @@
-import * as PIXI from 'pixi.js';
+
 
 import SpriteWrapperBase from "./spriteWrapperBase";
 import Item from "./item";
