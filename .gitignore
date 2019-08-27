@@ -14,4 +14,4 @@ yarn.lock
 .vscode
 .idea
 
-public
+public/

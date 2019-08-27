@@ -19,7 +19,6 @@ module.exports = {
         }
     },
     plugins: [
-        new CleanWebpackPlugin(),
         new CopyWebpackPlugin([
             {from: Path.resolve(__dirname, '../src/assets'), to: 'assets'}
         ]),

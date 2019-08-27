@@ -1,6 +1,10 @@
 #!/bin/sh
 
-
+if [ "`git status -s`" ]
+then
+    echo "The working directory is dirty. Please commit any pending changes."
+    exit 1;
+fi
 
 echo "Deleting old publication"
 rm -rf public
@@ -9,7 +13,7 @@ git worktree prune
 rm -rf .git/worktrees/public/
 
 echo "Checking out gh-pages branch into public"
-git worktree add -B gh-pages public origin/gh-pages
+git worktree add public gh-pages
 
 echo "Removing existing files"
 rm -rf public/*
