@@ -1,6 +1,4 @@
-
-
-import SpriteWrapperBase from "./spriteWrapperBase";
+import SpriteWrapperBase, {DIRECTION} from "./spriteWrapperBase";
 import Item from "./item";
 
 
@@ -17,6 +15,20 @@ export default class Char extends SpriteWrapperBase {
         this.equipped;
     }
 
+    animate() {
+        super.animate();
+        if (this.equipped) {
+            this.updateLayersOrder();
+
+            this.equipped.sprite.anchor.set(this.direction % 1, 0);
+
+
+            this.equipped.sprite.scale.x = this.direction;
+            this.equipped.sprite.x = this.direction;
+            this.equipped.sprite.zIndex = this.direction; // -1 -> "behind" other sprite
+            this.equipped.sprite.angle = 10 * this.direction;
+        }
+    }
 
 
     move(map: any) {
@@ -24,14 +36,9 @@ export default class Char extends SpriteWrapperBase {
 
         if (this.vx < 0) {
             state = 'running';
+            this.direction = DIRECTION.LEFT;
             this.sprite.scale.x = -1;
             this.sprite.anchor.set(1, 0);
-            if (this.equipped) {
-                this.equipped.sprite.zIndex = 1;
-                this.updateLayersOrder();
-                this.equipped.sprite.angle = 10;
-                this.equipped.sprite.x = 5;
-            }
             // moving left
             if (map.getCollisions(...this.coordsBottomLeft()) || map.getCollisions(...this.coordsTopLeft())) {
                 this.vx = 1;
@@ -39,14 +46,9 @@ export default class Char extends SpriteWrapperBase {
         } else if (this.vx > 0) {
             // right
             state = 'running';
+            this.direction = DIRECTION.RIGHT;
             this.sprite.scale.x = 1;
             this.sprite.anchor.set(0, 0);
-            if (this.equipped) {
-                this.equipped.sprite.zIndex = -1;
-                this.updateLayersOrder();
-                this.equipped.sprite.angle = -10;
-                this.equipped.sprite.x = 10;
-            }
             if (map.getCollisions(...this.coordsBottomRight()) || map.getCollisions(...this.coordsTopRight())) {
                 this.vx = -1;
             }
@@ -72,7 +74,8 @@ export default class Char extends SpriteWrapperBase {
 
     equip(item: Item) {
         this.equipped = item;
-        this.equipped.sprite.y = this.sprite.height + 4;
-        this.container.addChild(item.sprite)
+        this.equipped.sprite.y = 15;
+        this.container.addChild(item.sprite);
+        this.animate()
     }
 }

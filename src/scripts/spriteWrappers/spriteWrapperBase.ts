@@ -1,6 +1,10 @@
 import * as PIXI from "pixi.js";
 import hitTestRectangle from "../hitTestRectangle";
 
+export enum DIRECTION {
+    LEFT = 1,
+    RIGHT = -1
+}
 
 export default class SpriteWrapperBase {
     textures: any;
@@ -11,6 +15,7 @@ export default class SpriteWrapperBase {
     sprite: any; // "main" sprite in this container
     state: string;
     container: any;
+    direction: number;
 
 
     /**
@@ -24,6 +29,7 @@ export default class SpriteWrapperBase {
         this.textures = textures;
         this.definition = definition;
         this.state = state;
+        this.direction = DIRECTION.RIGHT;
 
         this.sprite = this._getSprite();
         this.container = new PIXI.Container();

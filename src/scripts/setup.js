@@ -57,7 +57,8 @@ function setup(app) {
 let left = keyboard("ArrowLeft"),
     up = keyboard("ArrowUp"),
     right = keyboard("ArrowRight"),
-    down = keyboard("ArrowDown");
+    down = keyboard("ArrowDown"),
+    space = keyboard("Space");
 
 let handleInput = () => {
     player.vx = 0;
@@ -73,6 +74,9 @@ let handleInput = () => {
     }
     if (!up.isDown && down.isDown) {
         player.vy = player.velocity;
+    }
+    if(space.isDown) {
+        player.hit = true
     }
 };
 
